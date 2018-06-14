@@ -1,10 +1,9 @@
 " Vim plugin to search for word definitions using sdcv.
 " Version: 0.1
 
-if exists('g:sdcv_loaded') || &cp || v:version < 700 || ! executable('sdcv')
+if exists('g:sdcv_loaded') || !executable('sdcv') || &compatible || v:version < 700
   finish
 endif
-
 let g:sdcv_loaded = 1
 
 " Search for the definition of word(s).
