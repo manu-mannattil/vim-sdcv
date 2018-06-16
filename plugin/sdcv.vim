@@ -14,9 +14,9 @@ function! s:search(...)
     let cmd .= ' ' . shellescape(word)
   endfor
 
-  if exists('g:sdcv_dictionaries')
-    for dict in g:sdcv_dictionaries
-      let cmd .= ' --use-dict ' . shellescape(dict)
+  if exists('g:sdcv_args')
+    for arg in g:sdcv_args
+      let cmd .= ' ' . shellescape(arg)
     endfor
   endif
 
@@ -61,12 +61,12 @@ endfunction
 
 function! s:complete(...)
   " 'spell' must be turned on for spellsuggest() to work.
-  let spell_opt = &l:spell
-  setlocal spell
+  let spell_opt = &spell
+  set spell
 
   " Get (< 10) spelling suggestions, restore state and return.
   let suggestions = spellsuggest(a:1, 10)
-  let &l:spell = spell_opt
+  let &spell = spell_opt
   return suggestions
 endfunction
 

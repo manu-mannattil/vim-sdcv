@@ -30,9 +30,17 @@ definitions can be looked up by pressing `K` in normal mode):
 The command `Sdcv` passes all its arguments to the sdcv executable
 directly and thus custom dictionaries can also be selected using
 the `--use-dict` (or `-u`) option like one would usually do with sdcv.
-Alternately, the global variable `g:sdcv_dictionaries` can be used:
+Alternately, the global variable `g:sdcv_args` can be used to specify
+the arguments passed to sdcv, e.g.,
 
-    let g:sdcv_dictionaries = ['Moby Thesaurus', 'Wordnet']
+    let g:sdcv_args = [
+          \ '--utf8-input',
+          \ '--utf8-output',
+          \ '--use-dict',
+          \ 'Moby Thesaurus',
+          \ 'Wordnet'
+          \ ]
+
 
 ### Filters
 
