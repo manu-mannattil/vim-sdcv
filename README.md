@@ -30,7 +30,7 @@ definitions can be looked up by pressing `K` in normal mode):
 The command `Sdcv` passes all its arguments to the sdcv executable
 directly and thus custom dictionaries can also be selected using
 the `--use-dict` (or `-u`) option like one would usually do with sdcv.
-Alternately, the global variable `g:sdcv_args` can be used to specify
+Alternatively, the global variable `g:sdcv_args` can be used to specify
 the arguments passed to sdcv, e.g.,
 
     let g:sdcv_args = [
@@ -53,4 +53,4 @@ filter program, e.g.,
 License
 -------
 
-Public domain
+Public domain.  See the file UNLICENSE for more details.

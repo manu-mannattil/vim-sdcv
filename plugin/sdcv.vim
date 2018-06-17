@@ -21,7 +21,7 @@ function! s:search(...)
   endif
 
   if exists('g:sdcv_filter')
-    let cmd .= ' | ' . g:sdcv_filter
+    let cmd .= ' | ' . shellescape(g:sdcv_filter)
   endif
   let lines = split(system(cmd), '\n')
 

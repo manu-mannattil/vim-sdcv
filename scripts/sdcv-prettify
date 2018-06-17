@@ -32,10 +32,12 @@
 #
 
 BEGIN {
+  COLUMNS = 72
+
   if (ARGV[1] == "--color") {
-    CYAN   = sprintf("\033[38;5;6m")
+    CYAN = sprintf("\033[38;5;6m")
     YELLOW = sprintf("\033[38;5;3m")
-    RESET  = sprintf("\033[0m")
+    RESET = sprintf("\033[0m")
 
     # Cleanup arguments.
     for (i = 1; i < ARGC; i++)
@@ -45,28 +47,27 @@ BEGIN {
     ARGC--
   }
 
-  COLUMNS     = 72
-  MARGIN      = 0
-  WRAP_MARGIN = 0
+  margin = 0
+  wrap_margin = 0
 }
 
 function padding(n) {
   return sprintf("%" n "s", "")
 }
 
-function wrap(line, WRAP_MARGIN) {
+function wrap(line, wrap_margin) {
   n = split(line, words)
 
   wrapped = ""
-  width   = 0
+  width = 0
 
   for (i = 1; i <= n; i++) {
     if (width + length(words[i]) <= COLUMNS) {
       wrapped = wrapped " " words[i]
       width = width + length(words[i]) + 1
     } else {
-      wrapped = wrapped "\n" padding(WRAP_MARGIN) words[i]
-      width = WRAP_MARGIN + length(words[i])
+      wrapped = wrapped "\n" padding(wrap_margin) words[i]
+      width = wrap_margin + length(words[i])
     }
   }
 
@@ -81,33 +82,32 @@ function wrap(line, WRAP_MARGIN) {
   gsub("&gt;", ">")
   gsub("&lt;", "<")
   gsub("&quot;", "\"")
-
   gsub("<[^>]*>", "")
 
-  if (match($0, /^ */) != 0) {
+  if (match($0, /^ */)) {
     # Break line if indentation changes.
-    if (MARGIN != RLENGTH)
+    if (margin != RLENGTH)
       printf("\n")
 
-    MARGIN = RLENGTH
+    margin = RLENGTH
 
     # Wrap numbered and bulleted items like vim: fo+=n.
-    if (match($0, /^ *([0-9]+[.)]|■) */) != 0) {
+    if (match($0, /^ *([0-9]+[.)]|■) */)) {
       printf("\n")
-      WRAP_MARGIN = RLENGTH + MARGIN
+      wrap_margin = RLENGTH + margin
     }
-    else
-      WRAP_MARGIN = 2 * MARGIN
+    else {
+      wrap_margin = 2 * margin
+    }
 
     # Double the indentation.
-    printf padding(2 * MARGIN)
+    printf padding(2 * margin)
   }
 
-  if ($0 ~ /^-->/) {
+  if ($0 ~ /^-->/)
     print CYAN $0 RESET
-  }
   else if ($0 ~ /^\[.+\]$/)
     print YELLOW $0 RESET
   else
-    print wrap($0, WRAP_MARGIN)
+    print wrap($0, wrap_margin)
 }
